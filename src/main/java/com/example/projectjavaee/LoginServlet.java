@@ -9,19 +9,18 @@ import jakarta.servlet.annotation.*;
 
 
 
-@WebServlet(name = "registrationServlet", value = "/registrationServlet")
-public class RegistrationServlet extends HttpServlet {
+@WebServlet(name = "loginServlet", value = "/loginServlet")
+public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Получаем данные из запроса
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        String passwordCheck = request.getParameter("passwordCheck");
 
-        if (!Objects.equals(password, passwordCheck)) {
-            // Если пароли не совпадают, устанавливаем сообщение об ошибке на странице
-            request.setAttribute("errorMessage", "Passwords are not the same!");
+        if (Objects.equals(login, "") || Objects.equals(password, "")) {
+            // Если поля ввода пустые то выводим ошибку
+            request.setAttribute("errorMessage", "Password or login must be not empty!!");
             // Перенаправляем на ту же JSP страницу
-            RequestDispatcher dispatcher = request.getRequestDispatcher("registration.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
             dispatcher.forward(request, response);
             return; // Прерываем выполнение метода
         }
